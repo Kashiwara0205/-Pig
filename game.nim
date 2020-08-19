@@ -1,8 +1,13 @@
 import algorithm
 import ./tip
 import ./board
+from strformat import fmt
 
 const FIELD_SIZE = 8
+
+const BLACK_TIP = " ○ "
+const WHITE_TIP = " ● "
+const NO_TIP = "   "
 
 type Game* = ref object
   board*: Board
@@ -45,3 +50,17 @@ proc isFInish*(game: Game): bool =
       if tip == nil: return false
 
   return true
+
+proc getTipStr(game: Game, tip: Tip): string =
+  if tip == nil: return NO_TIP
+  if tip.color == Color.Black: return BLACK_TIP else: return WHITE_TIP
+
+proc dispBoard*(game: Game): void =
+  for i in (0..7): stdout.write fmt"  {i} "
+  echo ""
+  for i, line in game.board:
+    stdout.write(i)
+    for tip in line: 
+      stdout.write game.getTipStr(tip) & "|"
+    echo ""
+  echo ""

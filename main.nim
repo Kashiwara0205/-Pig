@@ -5,11 +5,16 @@ const INPUT_ERROR_MSG = "ILLIGAL INPUT"
 const POSITION_ERROR_MSG = "ILLIGAL POSITION"
 
 echo "Start game"
+echo ""
 let game = othello.newGame()
 
 while(not game.isFInish()):
-  if game.nextTurnIsBlack(): echo "Input [ Black ] tip: (col, row)"
-  if game.nextTurnIsWhite(): echo "Input [ White ] tip: (col, row)"
+  echo "Board status:"
+  game.dispBoard()
+
+  echo "example(col, row) => 1,1"
+  if game.nextTurnIsBlack(): stdout.write "Input [ Black ] tip:"
+  if game.nextTurnIsWhite(): stdout.write "Input [ White ] tip:"
 
   let input_str = readLine(stdin)
   if input_str == "q": break
