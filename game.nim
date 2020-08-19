@@ -41,8 +41,11 @@ proc placeTip*(game: Game, col: int, row: int): void =
   game.current_tip = tip
   game.board.placeTip(tip)
 
-proc nextTurnIsWhite*(game: Game): bool = game.next_turn == Color.White
-proc nextTurnIsBlack*(game: Game): bool = game.next_turn == Color.Black
+proc shouldSkip*(game: Game): bool =
+  return game.board.shouldSkip(game.next_turn)
+
+proc nextTurnIsWhite(game: Game): bool = game.next_turn == Color.White
+proc nextTurnIsBlack(game: Game): bool = game.next_turn == Color.Black
 
 proc isFInish*(game: Game): bool =
   for line in game.board:
@@ -64,3 +67,7 @@ proc dispBoard*(game: Game): void =
       stdout.write game.getTipStr(tip) & "|"
     echo ""
   echo ""
+
+proc getCurrentTurn*(game: Game):string =
+  if game.nextTurnIsBlack(): return "Black"
+  if game.nextTurnIsWhite(): return "White"

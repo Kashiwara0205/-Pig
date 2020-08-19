@@ -219,5 +219,12 @@ proc canPlaceTip*(board: Board, tip: Tip): bool =
          board.canUpdateUpperLeft(tip) or
          board.canUpdateLowerLeft(tip) )
 
+proc shouldSkip*(board: Board, color: Color): bool = 
+  for col, line in board:
+    for row, current_tip in line:
+      let tip  = if color == Color.Black: newBlackTip(col, row) else: newWhiteTip(col, row)
+      if board.canPlaceTip(tip): return false
+  return true
+
 proc placeTip*(board: var Board, tip: Tip): void =
   board[tip.col][tip.row] = tip
