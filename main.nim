@@ -32,11 +32,17 @@ proc newGame*(): Game =
 
   return Game(board: board)
 
-proc updateUpper(game: Game, col: int, row: int, tip: Tip): void =
-  if col == UPPER_LIMIT: return
+proc canUpdateUpper(game: Game, col: int, row: int, tip: Tip): bool =
+  if col == UPPER_LIMIT: return false
   let next_tip = game.board[col - 1][row]
-  if next_tip == nil or tip.color == next_tip.color: return
+  if next_tip == nil or tip.color == next_tip.color: return false
+  for i in countdown(col - 1, UPPER_LIMIT):
+    if game.board[i][row].color == tip.color: return true
 
+  return false
+
+proc updateUpper(game: Game, col: int, row: int, tip: Tip): void =
+  if not game.canUpdateUpper(col, row, tip): return 
   for i in countdown(col - 1, UPPER_LIMIT):
     if game.board[i][row].color == tip.color: break
     game.board[i][row].color = tip.color
