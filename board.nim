@@ -144,7 +144,7 @@ proc canUpdateUpperLeft(board: Board, tip: Tip): bool =
   col.dec
   row.dec
 
-  while col <= LOWER_LIMIT and row >= LEFT_LIMIT:
+  while col >= UPPER_LIMIT and row >= LEFT_LIMIT:
     if board[col][row] == nil: return false
     if board[col][row].color == tip.color: return true
     col.dec
