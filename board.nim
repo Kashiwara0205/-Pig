@@ -195,6 +195,9 @@ proc updateLowerLeft(board: Board, tip: Tip): void =
     col.inc
     row.dec
 
+proc positionIsEmpty(board: Board, tip: Tip): bool =
+  return board[tip.col][tip.row] == nil
+
 proc updateBoard*(board: Board, tip: Tip): void =
   board.updateUpper(tip)
   board.updateRight(tip)
@@ -204,3 +207,17 @@ proc updateBoard*(board: Board, tip: Tip): void =
   board.updateLowerRight(tip)
   board.updateUpperLeft(tip)
   board.updateLowerLeft(tip)
+
+proc canPlaceTip*(board: Board, tip: Tip): bool = 
+  return board.positionIsEmpty(tip) and(
+         board.canUpdateUpper(tip) or
+         board.canUpdateRight(tip) or
+         board.canUpdateLeft(tip) or
+         board.canUpdateLower(tip) or
+         board.canUpdateUpperRight(tip) or
+         board.canUpdateLowerRight(tip) or
+         board.canUpdateUpperLeft(tip) or
+         board.canUpdateLowerLeft(tip) )
+
+proc placeTip*(board: var Board, tip: Tip): void =
+  board[tip.col][tip.row] = tip

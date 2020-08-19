@@ -27,10 +27,14 @@ proc updateBoard*(game: Game): void =
   let tip = game.current_tip
   game.board.updateBoard(tip)
 
+proc canPlaceTip*(game: Game, col: int, row: int): bool =
+  let tip = if game.next_turn == Color.Black: newBlackTip(col, row) else: newWhiteTip(col, row)
+  return game.board.canPlaceTip(tip)
+  
 proc placeTip*(game: Game, col: int, row: int): void =
   let tip = if game.next_turn == Color.Black: newBlackTip(col, row) else: newWhiteTip(col, row)
   game.current_tip = tip
-  game.board[col][row] = tip
+  game.board.placeTip(tip)
 
 proc nextTurnIsWhite*(game: Game): bool = game.next_turn == Color.White
 proc nextTurnIsBlack*(game: Game): bool = game.next_turn == Color.Black
