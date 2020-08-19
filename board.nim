@@ -137,6 +137,64 @@ proc updateLowerRight(board: Board, tip: Tip): void =
     col.inc
     row.inc
 
+proc canUpdateUpperLeft(board: Board, tip: Tip): bool =
+  var col = tip.col
+  var row = tip.row
+
+  col.dec
+  row.dec
+
+  while col <= LOWER_LIMIT and row >= LEFT_LIMIT:
+    if board[col][row] == nil: return false
+    if board[col][row].color == tip.color: return true
+    col.dec
+    row.dec
+
+  return false
+
+proc updateUpperLeft(board: Board, tip: Tip): void =
+  if not board.canUpdateUpperLeft(tip): return
+  var col = tip.col
+  var row = tip.row
+
+  col.dec
+  row.dec
+
+  while col >= UPPER_LIMIT and row >= LEFT_LIMIT:
+    if board[col][row].color == tip.color: break
+    board[col][row].color = tip.color
+    col.dec
+    row.dec
+
+proc canUpdateLowerLeft(board: Board, tip: Tip): bool =
+  var col = tip.col
+  var row = tip.row
+
+  col.inc
+  row.dec
+
+  while col <= LOWER_LIMIT and row >= LEFT_LIMIT:
+    if board[col][row] == nil: return false
+    if board[col][row].color == tip.color: return true
+    col.inc
+    row.dec
+
+  return false
+
+proc updateLowerLeft(board: Board, tip: Tip): void =
+  if not board.canUpdateLowerLeft(tip): return
+  var col = tip.col
+  var row = tip.row
+
+  col.inc
+  row.dec
+
+  while col <= LOWER_LIMIT and row >= LEFT_LIMIT:
+    if board[col][row].color == tip.color: break
+    board[col][row].color = tip.color
+    col.inc
+    row.dec
+
 proc updateBoard*(board: Board, tip: Tip): void =
   board.updateUpper(tip)
   board.updateRight(tip)
@@ -144,3 +202,5 @@ proc updateBoard*(board: Board, tip: Tip): void =
   board.updateLower(tip)
   board.updateUpperRight(tip)
   board.updateLowerRight(tip)
+  board.updateUpperLeft(tip)
+  board.updateLowerLeft(tip)
