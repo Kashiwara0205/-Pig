@@ -10,10 +10,8 @@ type Board* = seq[seq[Tip]]
 proc canUpdateUpper(board: Board, tip: Tip): bool =
   let col = tip.col
   let row = tip.row
-  if col == UPPER_LIMIT: return false
-  let next_tip = board[col - 1][row]
-  if next_tip == nil or tip.color == next_tip.color: return false
   for i in countdown(col - 1, UPPER_LIMIT):
+    if board[i][row] == nil: return false
     if board[i][row].color == tip.color: return true
 
   return false
@@ -29,13 +27,9 @@ proc updateUpper(board: Board, tip: Tip): void =
 proc canUpdateRight(board: Board, tip: Tip): bool =
   let col = tip.col
   let row = tip.row
-  if row == RIGHT_LIMIT: return false
-  let next_tip = board[col][row + 1]
-  if next_tip == nil or tip.color == next_tip.color: return false
-
   for i in countup(row + 1, RIGHT_LIMIT):
+    if board[col][i] == nil: return false
     if board[col][i].color == tip.color: return true
-    board[col][i].color = tip.color
 
   return false
 
@@ -54,13 +48,9 @@ proc updateRight(board: Board, tip: Tip): void =
 proc canUpdateLeft(board: Board, tip: Tip): bool =
   let col = tip.col
   let row = tip.row
-  if row == LEFT_LIMIT: return false
-  let next_tip = board[col][row - 1]
-  if next_tip == nil or tip.color == next_tip.color: return false
-
   for i in countdown(row - 1, LEFT_LIMIT):
+    if board[col][i] == nil: return false
     if board[col][i].color == tip.color: return true
-    board[col][i].color = tip.color
 
   return false
 
@@ -75,13 +65,9 @@ proc updateLeft(board: Board, tip: Tip): void =
 proc canUpdateLower(board: Board, tip: Tip): bool =
   let col = tip.col
   let row = tip.row
-  if row == LOWER_LIMIT: return false
-  let next_tip = board[col + 1][row]
-  if next_tip == nil or tip.color == next_tip.color: return false
-
   for i in countup(col + 1, LOWER_LIMIT):
+    if board[i][row] == nil: return false
     if board[i][row].color == tip.color: return true
-    board[i][row].color = tip.color
 
   return false
 
@@ -93,8 +79,38 @@ proc updateLower(board: Board, tip: Tip): void =
     if board[i][row].color == tip.color: break
     board[i][row].color = tip.color
 
+proc canUpdateUpperRight(board: Board, tip: Tip): bool =
+  var col = tip.col
+  var row = tip.row
+
+  col.dec
+  row.inc
+
+  while col >= UPPER_LIMIT and row <= RIGHT_LIMIT:
+    if board[col][row] == nil: return false
+    if board[col][row].color == tip.color: return true
+    col.dec
+    row.inc
+
+  return false
+
+proc updateUpperRight(board: Board, tip: Tip): void =
+  if not board.canUpdateUpperRight(tip): return
+  var col = tip.col
+  var row = tip.row
+
+  col.dec
+  row.inc
+
+  while col >= UPPER_LIMIT and row <= RIGHT_LIMIT:
+    if board[col][row].color == tip.color: break
+    board[col][row].color = tip.color
+    col.dec
+    row.inc
+
 proc updateBoard*(board: Board, tip: Tip): void =
   board.updateUpper(tip)
   board.updateRight(tip)
   board.updateLeft(tip)
   board.updateLower(tip)
+  board.updateUpperRight(tip)
