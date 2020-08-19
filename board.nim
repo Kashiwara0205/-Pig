@@ -108,9 +108,39 @@ proc updateUpperRight(board: Board, tip: Tip): void =
     col.dec
     row.inc
 
+proc canUpdateLowerRight(board: Board, tip: Tip): bool =
+  var col = tip.col
+  var row = tip.row
+
+  col.inc
+  row.inc
+
+  while col <= LOWER_LIMIT and row <= RIGHT_LIMIT:
+    if board[col][row] == nil: return false
+    if board[col][row].color == tip.color: return true
+    col.inc
+    row.inc
+
+  return false
+
+proc updateLowerRight(board: Board, tip: Tip): void =
+  if not board.canUpdateLowerRight(tip): return
+  var col = tip.col
+  var row = tip.row
+
+  col.inc
+  row.inc
+
+  while col <= LOWER_LIMIT and row <= RIGHT_LIMIT:
+    if board[col][row].color == tip.color: break
+    board[col][row].color = tip.color
+    col.inc
+    row.inc
+
 proc updateBoard*(board: Board, tip: Tip): void =
   board.updateUpper(tip)
   board.updateRight(tip)
   board.updateLeft(tip)
   board.updateLower(tip)
   board.updateUpperRight(tip)
+  board.updateLowerRight(tip)

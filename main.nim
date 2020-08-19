@@ -66,3 +66,11 @@ block test:
     assert game.board[5][2].color == Color.Black
     assert game.board[4][3].color == Color.Black
     assert game.board[3][4].color == Color.Black
+  block should_reverse_lower_right:
+    let game = newGame()
+    game.placeBlackTip(2, 3)
+    assert game.board[3][3].color == Color.Black
+    game.placeWhiteTip(2, 2)
+    assert game.board[2][2].color == Color.White
+    assert game.board[3][3].color == Color.White
+    assert game.board[4][4].color == Color.White
