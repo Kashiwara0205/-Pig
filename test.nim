@@ -1,5 +1,16 @@
 import ./tip
-import ./main
+import ./board
+import ./game
+
+# for test 
+proc placeTipMock(game: Game, tip: Tip): void =
+  let col = tip.col
+  let row = tip.row
+  game.board[col][row] = tip
+  game.board.updateBoard(tip)
+
+proc placeWhiteTip(game: Game, col: int, row: int): void = game.placeTipMock(newWhiteTip(col, row))
+proc placeBlackTip(game: Game, col: int, row: int): void = game.placeTipMock(newBlackTip(col, row))
 
 block test:
   block should_make_new_game:

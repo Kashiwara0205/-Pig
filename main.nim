@@ -1,28 +1,21 @@
-import algorithm
-import ./tip
-import ./board
+import game as othello
+import strutils
+import sequtils, sugar
 
-const FIELD_SIZE = 8
+proc getPosition(input_str: TaintedString): (int, int) =
+  var text = input_str
+  let arr = text.replace(" ", "").split(',').map(x => x.parseInt)
 
-type Game* = ref object
-  board*: Board
+  return (arr[0], arr[1])
 
-proc newGame*(): Game =
-  var board = newSeq[seq[Tip]](FIELD_SIZE)
-  board.fill(newSeq[Tip](FIELD_SIZE))
-
-  board[3][3] = newWhiteTip(3, 3)
-  board[3][4] = newBlackTip(3, 4)
-  board[4][3] = newBlackTip(4, 3)
-  board[4][4] = newWhiteTip(4, 4)
-
-  return Game(board: board)
-
-proc placeTip(game: Game, tip: Tip): void =
-  let col = tip.col
-  let row = tip.row
-  game.board[col][row] = tip
-  game.board.updateBoard(tip)
-
-proc placeWhiteTip*(game: Game, col: int, row: int): void = game.placeTip(newWhiteTip(col, row))
-proc placeBlackTip*(game: Game, col: int, row: int): void = game.placeTip(newBlackTip(col, row))
+let game = othello.newGame()
+echo "Start game"
+while(not game.isFInish()):
+  if game.nextTurnIsBlack(): echo "Input [ Black ] tip: (col, row)"
+  if game.nextTurnIsWhite(): echo "Input [ White ] tip: (col, row)"
+  let input_str = readLine(stdin)
+  if input_str == "q": break
+  let position = getPosition(input_str)
+  game.placeTip(position[0], position[1])
+  game.updateBoard()
+  game.updateNextTurn()
