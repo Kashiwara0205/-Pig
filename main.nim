@@ -1,5 +1,5 @@
 import game as othello
-import main_helper
+import player as othelloPlayer
 from strformat import fmt
 
 const INPUT_ERROR_MSG = "ILLIGAL INPUT"
@@ -8,6 +8,8 @@ const POSITION_ERROR_MSG = "ILLIGAL POSITION"
 echo "Start game"
 echo ""
 let game = othello.newGame()
+
+let player = othelloPlayer.create("human")
 
 while(not game.isFInish()):
   echo "Board status:"
@@ -21,9 +23,7 @@ while(not game.isFInish()):
   echo "example(col, row) => 1,1"
   stdout.write fmt"Input [ { game.getCurrentTurn() } ] tip:"
 
-  let input_str = readLine(stdin)
-  if input_str == "q": break
-  let position = genPosition(input_str)
+  let position = player.getPosition()
 
   if position == nil:
     echo INPUT_ERROR_MSG
