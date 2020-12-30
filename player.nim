@@ -1,18 +1,12 @@
 import strutils
 import sequtils, sugar
 
-type Position = ref object
+type Position* = ref object
   col*: int
   row*: int
 
-type Player = ref object of RootObj
-method getPosition*(player: Player): Position {.base, locks: "unknown".} = discard
-
-type Cpu = ref object of Player
-method getPosition*(player: Cpu): Position {.locks: "unknown".} =  discard
-
-type Human = ref object of Player
-method getPosition*(player: Human): Position {.locks: "unknown".} =
+type Player = ref object
+proc getPosition*(player: Player): Position =
   var input_str = readLine(stdin)
   try:
     var text = input_str
@@ -22,6 +16,4 @@ method getPosition*(player: Human): Position {.locks: "unknown".} =
   except:
     return nil
 
-proc create*(name: string): Player =
-  if "cpu" == name: return Cpu()
-  if "human" == name: return Human()
+func createPlayer*(name: string): Player = return Player()

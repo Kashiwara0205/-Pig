@@ -5,11 +5,13 @@ from strformat import fmt
 const INPUT_ERROR_MSG = "ILLIGAL INPUT"
 const POSITION_ERROR_MSG = "ILLIGAL POSITION"
 
+echo "-------------------------"
 echo "Start game"
+echo "-------------------------"
 echo ""
-let game = othello.newGame()
 
-let player = othelloPlayer.create("human")
+let game = othello.newGame()
+let player = othelloPlayer.createPlayer("human")
 
 while(not game.isFInish()):
   echo "Board status:"
@@ -26,6 +28,14 @@ while(not game.isFInish()):
   let position = player.getPosition()
 
   if position == nil:
+    echo INPUT_ERROR_MSG
+    continue
+
+  if position.col < 0 or position.col > 7:
+    echo INPUT_ERROR_MSG
+    continue
+
+  if position.row < 0 or position.row > 7:
     echo INPUT_ERROR_MSG
     continue
 
