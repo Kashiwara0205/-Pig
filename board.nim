@@ -7,7 +7,6 @@ const LOWER_LIMIT = 7
 
 type Board* = seq[seq[Tip]]
 
-
 func outOfRange(val: int): bool = return val < 0 or 7 < val
 
 proc canUpdateUpper(board: Board, tip: Tip): bool =

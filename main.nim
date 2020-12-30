@@ -1,5 +1,5 @@
-import game as othello
-import player as othelloPlayer
+import game as reversi
+import player as reversiPlayer
 from strformat import fmt
 
 const INPUT_ERROR_MSG = "ILLIGAL INPUT"
@@ -14,8 +14,8 @@ echo "Ctrl+C: finish this game"
 echo "----------------------------"
 echo ""
 
-let game = othello.newGame()
-let player = othelloPlayer.createPlayer("human")
+let game = reversi.newGame()
+let player = reversiPlayer.createPlayer("human")
 
 proc ctrlc() {.noconv.} = system.quit(QuitSuccess)
 
