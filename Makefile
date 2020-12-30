@@ -1,6 +1,5 @@
-unit_test:
+test:
 	nim compile ./test.nim
 	./test
 start:
-	nim compile ./main.nim
-	./main
+	bin/main
