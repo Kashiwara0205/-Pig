@@ -1,5 +1,5 @@
-test:
-	nim compile ./test.nim
-	./test
+unit:
+	nim compile ./test/test.nim
+	./test/test
 start:
 	bin/main

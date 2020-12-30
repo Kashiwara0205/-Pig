@@ -1,6 +1,6 @@
-import ./tip
-import ./board
-import ./game
+import ../src/tip
+import ../src/board
+import ../src/game
 
 # for test 
 proc placeTipMock(game: Game, tip: Tip): void =
