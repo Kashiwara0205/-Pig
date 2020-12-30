@@ -12,6 +12,7 @@ echo ""
 echo "This is simple Reversi game"
 echo "Ctrl+C: finish this game"
 echo "----------------------------"
+echo ""
 
 let game = othello.newGame()
 let player = othelloPlayer.createPlayer("human")
@@ -19,10 +20,10 @@ let player = othelloPlayer.createPlayer("human")
 proc ctrlc() {.noconv.} = system.quit(QuitSuccess)
 
 while(not game.isFInish()):
-  setControlCHook(ctrlc)
-
   echo ""
   game.dispBoard()
+  echo ""
+  setControlCHook(ctrlc)
 
   if game.shouldSkip():
     echo fmt"Skip [ { game.getCurrentTurn() } ] turn"
@@ -52,3 +53,21 @@ while(not game.isFInish()):
     game.updateNextTurn()
   else:
     echo POSITION_ERROR_MSG
+
+let blackTipCnt = game.calcBlackTip()
+let whiteTipCnt = game.calcWhiteTip()
+
+echo "[ FINAL RESULT ] "
+echo "--------------------------------------------"
+echo ""
+game.dispBoard()
+echo "--------------------------------------------"
+echo fmt"Black tip is  [ { blackTipCnt } ]"
+echo fmt"White tip is  [ { whiteTipCnt } ]"
+
+if blackTipCnt > whiteTipCnt:
+  echo "Black wins"
+elif whiteTipCnt > blackTipCnt:
+  echo "White wins"
+else:
+  echo "Draw"

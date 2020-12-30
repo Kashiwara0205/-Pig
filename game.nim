@@ -26,7 +26,7 @@ proc newGame*(): Game =
   return Game(board: board, next_turn: Color.Black, current_tip: nil)
 
 proc updateNextTurn*(game: Game): void =
-  game.next_turn = if game.next_turn == Color.Black : Color.White else : Color.Black
+  game.next_turn = if game.next_turn == Color.Black: Color.White else: Color.Black
 
 proc updateBoard*(game: Game): void =
   let tip = game.current_tip
@@ -68,6 +68,23 @@ proc dispBoard*(game: Game): void =
     echo ""
   echo ""
 
+proc calcBlackTip*(game: Game): int =
+  var cnt = 0
+  for line in game.board:
+    for tip in line: 
+      if tip.color == Color.Black:
+        cnt.inc
+
+  return cnt
+
+proc calcWhiteTip*(game: Game): int =
+  var cnt = 0
+  for line in game.board:
+    for tip in line: 
+      if tip.color == Color.White:
+        cnt.inc
+
+  return cnt
 proc getCurrentTurn*(game: Game):string =
   if game.nextTurnIsBlack(): return "Black"
   if game.nextTurnIsWhite(): return "White"

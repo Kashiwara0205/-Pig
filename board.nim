@@ -7,10 +7,20 @@ const LOWER_LIMIT = 7
 
 type Board* = seq[seq[Tip]]
 
+
+func outOfRange(val: int): bool = return val < 0 or 7 < val
+
 proc canUpdateUpper(board: Board, tip: Tip): bool =
-  let col = tip.col
-  let row = tip.row
-  for i in countdown(col - 1, UPPER_LIMIT):
+  var col = tip.col - 1
+  var row = tip.row
+
+  if outOfRange(col): return false
+  if board[col][row] == nil: return false
+  if board[col][row].color == tip.color: return false
+
+  col.dec
+
+  for i in countdown(col, UPPER_LIMIT):
     if board[i][row] == nil: return false
     if board[i][row].color == tip.color: return true
 
@@ -25,9 +35,16 @@ proc updateUpper(board: Board, tip: Tip): void =
     board[i][row].color = tip.color
 
 proc canUpdateRight(board: Board, tip: Tip): bool =
-  let col = tip.col
-  let row = tip.row
-  for i in countup(row + 1, RIGHT_LIMIT):
+  var col = tip.col
+  var row = tip.row + 1
+
+  if outOfRange(row): return false
+  if board[col][row] == nil: return false
+  if board[col][row].color == tip.color: return false
+
+  row.inc
+
+  for i in countup(row, RIGHT_LIMIT):
     if board[col][i] == nil: return false
     if board[col][i].color == tip.color: return true
 
@@ -37,18 +54,21 @@ proc updateRight(board: Board, tip: Tip): void =
   if not board.canUpdateRight(tip): return
   let col = tip.col
   let row = tip.row
-  if row == RIGHT_LIMIT: return
-  let next_tip = board[col][row + 1]
-  if next_tip == nil or tip.color == next_tip.color: return
-
   for i in countup(row + 1, RIGHT_LIMIT):
     if board[col][i].color == tip.color: break
     board[col][i].color = tip.color
 
 proc canUpdateLeft(board: Board, tip: Tip): bool =
-  let col = tip.col
-  let row = tip.row
-  for i in countdown(row - 1, LEFT_LIMIT):
+  var col = tip.col
+  var row = tip.row - 1
+
+  if outOfRange(row): return false
+  if board[col][row] == nil: return false
+  if board[col][row].color == tip.color: return false
+
+  row.dec
+
+  for i in countdown(row , LEFT_LIMIT):
     if board[col][i] == nil: return false
     if board[col][i].color == tip.color: return true
 
@@ -63,9 +83,16 @@ proc updateLeft(board: Board, tip: Tip): void =
     board[col][i].color = tip.color
 
 proc canUpdateLower(board: Board, tip: Tip): bool =
-  let col = tip.col
-  let row = tip.row
-  for i in countup(col + 1, LOWER_LIMIT):
+  var col = tip.col + 1
+  var row = tip.row
+
+  if outOfRange(col): return false
+  if board[col][row] == nil: return false
+  if board[col][row].color == tip.color: return false
+
+  col.inc
+
+  for i in countup(col, LOWER_LIMIT):
     if board[i][row] == nil: return false
     if board[i][row].color == tip.color: return true
 
@@ -80,8 +107,12 @@ proc updateLower(board: Board, tip: Tip): void =
     board[i][row].color = tip.color
 
 proc canUpdateUpperRight(board: Board, tip: Tip): bool =
-  var col = tip.col
-  var row = tip.row
+  var col = tip.col - 1
+  var row = tip.row + 1
+
+  if outOfRange(col) or outOfRange(row): return false
+  if board[col][row] == nil: return false
+  if board[col][row].color == tip.color: return false
 
   col.dec
   row.inc
@@ -109,8 +140,12 @@ proc updateUpperRight(board: Board, tip: Tip): void =
     row.inc
 
 proc canUpdateLowerRight(board: Board, tip: Tip): bool =
-  var col = tip.col
-  var row = tip.row
+  var col = tip.col + 1
+  var row = tip.row + 1
+
+  if outOfRange(col) or outOfRange(row): return false
+  if board[col][row] == nil: return false
+  if board[col][row].color == tip.color: return false
 
   col.inc
   row.inc
@@ -138,8 +173,12 @@ proc updateLowerRight(board: Board, tip: Tip): void =
     row.inc
 
 proc canUpdateUpperLeft(board: Board, tip: Tip): bool =
-  var col = tip.col
-  var row = tip.row
+  var col = tip.col - 1
+  var row = tip.row - 1
+
+  if outOfRange(col) or outOfRange(row): return false
+  if board[col][row] == nil: return false
+  if board[col][row].color == tip.color: return false
 
   col.dec
   row.dec
@@ -167,8 +206,12 @@ proc updateUpperLeft(board: Board, tip: Tip): void =
     row.dec
 
 proc canUpdateLowerLeft(board: Board, tip: Tip): bool =
-  var col = tip.col
-  var row = tip.row
+  var col = tip.col + 1
+  var row = tip.row - 1
+
+  if outOfRange(col) or outOfRange(row): return false
+  if board[col][row] == nil: return false
+  if board[col][row].color == tip.color: return false
 
   col.inc
   row.dec
