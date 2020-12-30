@@ -5,16 +5,23 @@ from strformat import fmt
 const INPUT_ERROR_MSG = "ILLIGAL INPUT"
 const POSITION_ERROR_MSG = "ILLIGAL POSITION"
 
-echo "-------------------------"
-echo "Start game"
-echo "-------------------------"
 echo ""
+echo "----------------------------"
+echo "Introductions"
+echo ""
+echo "This is simple Reversi game"
+echo "Ctrl+C: finish this game"
+echo "----------------------------"
 
 let game = othello.newGame()
 let player = othelloPlayer.createPlayer("human")
 
+proc ctrlc() {.noconv.} = system.quit(QuitSuccess)
+
 while(not game.isFInish()):
-  echo "Board status:"
+  setControlCHook(ctrlc)
+
+  echo ""
   game.dispBoard()
 
   if game.shouldSkip():

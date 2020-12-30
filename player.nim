@@ -10,7 +10,6 @@ proc getPosition*(player: Player): Position =
   var input_str = readLine(stdin)
   try:
     var text = input_str
-    if text == "q": system.quit(QuitSuccess)
     let arr = text.replace(" ", "").split(',').map(x => x.parseInt)
     return Position(col: arr[0], row: arr[1])
   except:
