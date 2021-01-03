@@ -27,7 +27,7 @@ while(not game.isFInish()):
 
   if game.shouldSkip():
     echo fmt"Skip [ { game.getCurrentTurn() } ] turn"
-    game.updateNextTurn()
+    game.updateTurn()
     continue
 
   echo "example(col, row) => 1,1"
@@ -50,7 +50,7 @@ while(not game.isFInish()):
   if game.canPlaceTip(position.col, position.row):
     game.placeTip(position.col, position.row)
     game.updateBoard()
-    game.updateNextTurn()
+    game.updateTurn()
   else:
     echo POSITION_ERROR_MSG
 

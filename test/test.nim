@@ -72,7 +72,7 @@ block test:
     #           if position is (1, 1) then return false
     game = newGame()
     game.placeBlackTip(2, 3)
-    game.updateNextTurn()
+    game.updateTurn()
     assert game.canPlaceTip(2, 2)
     assert not game.canPlaceTip(1, 1)
 
@@ -81,7 +81,7 @@ block test:
     #           if position is (4, 4) then return false
     game = newGame()
     game.placeBlackTip(5, 4)
-    game.updateNextTurn()
+    game.updateTurn()
     assert game.canPlaceTip(5, 5)
     assert not game.canPlaceTip(4, 4)
 
@@ -90,7 +90,7 @@ block test:
     #           if position is (3, 1) then return false
     game = newGame()
     game.placeBlackTip(2, 3)
-    game.updateNextTurn()
+    game.updateTurn()
     assert game.canPlaceTip(2, 2)
     assert not game.canPlaceTip(3, 1)
 
@@ -364,10 +364,20 @@ block test:
     assert game.board[0][7].color == Color.Black
 
   block test_skip:
+    # outline: should not skip 
+    # expected: should not skip both Black and White turn
     var game = newGame()
+
+    assert not game.shouldSkip
+    game.updateTurn()
+    
+    assert not game.shouldSkip
+
+    # outline: should skip 
+    # expected: should skip both Black and White turn
+    game = newGame()
     game.deleteAllTip()
 
-    # all white tip
     game.placeWhiteTip(7, 0)
     game.placeWhiteTip(6, 1)
     game.placeWhiteTip(5, 2)
@@ -378,3 +388,19 @@ block test:
     game.placeWhiteTip(0, 7)
 
     assert game.shouldSkip
+
+    game.updateTurn()
+
+    assert game.shouldSkip
+
+  block test_update_turn:
+
+    # outline: should update turn 
+    # expected: - update black to white
+    #           - update white to black
+    var game = newGame()
+    assert game.turn == Color.Black
+    game.updateTurn()
+    assert game.turn == Color.White
+    game.updateTurn()
+    assert game.turn == Color.Black

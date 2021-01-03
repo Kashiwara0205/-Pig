@@ -12,7 +12,7 @@ const NO_TIP = "   "
 type Game* = ref object
   board*: Board
   current_tip: Tip
-  next_turn*: Color
+  turn*: Color
 
 proc newGame*(): Game =
   var board = newSeq[seq[Tip]](FIELD_SIZE)
@@ -23,29 +23,29 @@ proc newGame*(): Game =
   board[4][3] = newBlackTip(4, 3)
   board[4][4] = newWhiteTip(4, 4)
 
-  return Game(board: board, next_turn: Color.Black, current_tip: nil)
+  return Game(board: board, turn: Color.Black, current_tip: nil)
 
-proc updateNextTurn*(game: Game): void =
-  game.next_turn = if game.next_turn == Color.Black: Color.White else: Color.Black
+proc updateTurn*(game: Game): void =
+  game.turn = if game.turn == Color.Black: Color.White else: Color.Black
 
 proc updateBoard*(game: Game): void =
   let tip = game.current_tip
   game.board.updateBoard(tip)
 
 proc canPlaceTip*(game: Game, col: int, row: int): bool =
-  let tip = if game.next_turn == Color.Black: newBlackTip(col, row) else: newWhiteTip(col, row)
+  let tip = if game.turn == Color.Black: newBlackTip(col, row) else: newWhiteTip(col, row)
   return game.board.canPlaceTip(tip)
   
 proc placeTip*(game: Game, col: int, row: int): void =
-  let tip = if game.next_turn == Color.Black: newBlackTip(col, row) else: newWhiteTip(col, row)
+  let tip = if game.turn == Color.Black: newBlackTip(col, row) else: newWhiteTip(col, row)
   game.current_tip = tip
   game.board.placeTip(tip)
 
 proc shouldSkip*(game: Game): bool =
-  return game.board.shouldSkip(game.next_turn)
+  return game.board.shouldSkip(game.turn)
 
-proc nextTurnIsWhite(game: Game): bool = game.next_turn == Color.White
-proc nextTurnIsBlack(game: Game): bool = game.next_turn == Color.Black
+proc nextTurnIsWhite(game: Game): bool = game.turn == Color.White
+proc nextTurnIsBlack(game: Game): bool = game.turn == Color.Black
 
 proc isFInish*(game: Game): bool =
   for line in game.board:
