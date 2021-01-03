@@ -29,8 +29,8 @@ proc canUpdateUpper(board: Board, tip: Tip): bool =
   col.dec
 
   for i in countdown(col, UPPER_LIMIT):
-    if board.notExistsTip(board[col][row]): return false
-    if board.isSameColor(board[col][row], tip): return true
+    if board.notExistsTip(board[i][row]): return false
+    if board.isSameColor(board[i][row], tip): return true
 
   return false
 
@@ -52,8 +52,8 @@ proc canUpdateRight(board: Board, tip: Tip): bool =
   row.inc
 
   for i in countup(row, RIGHT_LIMIT):
-    if board.notExistsTip(board[col][row]): return false
-    if board.isSameColor(board[col][row], tip): return true
+    if board.notExistsTip(board[col][i]): return false
+    if board.isSameColor(board[col][i], tip): return true
 
   return false
 
@@ -75,8 +75,8 @@ proc canUpdateLeft(board: Board, tip: Tip): bool =
   row.dec
 
   for i in countdown(row , LEFT_LIMIT):
-    if board.notExistsTip(board[col][row]): return false
-    if board.isSameColor(board[col][row], tip): return true
+    if board.notExistsTip(board[col][i]): return false
+    if board.isSameColor(board[col][i], tip): return true
 
   return false
 
@@ -98,8 +98,8 @@ proc canUpdateLower(board: Board, tip: Tip): bool =
   col.inc
 
   for i in countup(col, LOWER_LIMIT):
-    if board.notExistsTip(board[col][row]): return false
-    if board.isSameColor(board[col][row], tip): return true
+    if board.notExistsTip(board[i][row]): return false
+    if board.isSameColor(board[i][row], tip): return true
 
   return false
 
