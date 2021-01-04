@@ -47,7 +47,7 @@ proc shouldSkip*(game: Game): bool =
 proc nextTurnIsWhite(game: Game): bool = game.turn == Color.White
 proc nextTurnIsBlack(game: Game): bool = game.turn == Color.Black
 
-proc isFInish*(game: Game): bool =
+proc isFinish*(game: Game): bool =
   for line in game.board:
     for tip in line: 
       if tip == nil: return false

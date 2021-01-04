@@ -19,7 +19,7 @@ let player = reversiPlayer.createPlayer("human")
 
 proc ctrlc() {.noconv.} = system.quit(QuitSuccess)
 
-while(not game.isFInish()):
+while(not game.isFinish()):
   echo ""
   game.dispBoard()
   echo ""
