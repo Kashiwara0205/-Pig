@@ -1,6 +1,6 @@
 # Reversi
 
-If you run "make start", then start reversi game
+Reversi program made by Nim.
 
 ```
 ----------------------------
