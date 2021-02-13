@@ -1,6 +1,6 @@
 # Reversi
 
-Reversi program made by Nim.
+Reversi program witten by Nim.
 
 ```
 ----------------------------
